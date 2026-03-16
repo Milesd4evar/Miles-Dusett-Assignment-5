@@ -5,26 +5,17 @@ async function main() {
   try {
     await client.connect();
     const db = client.db('ieeevisTweets');
-
-    await db.collection('tweet').aggregate([
-      { $group: { _id: "$user.id", user: { $first: "$user" } } },
-      { $replaceRoot: { newRoot: "$user" } },
-      { $out: "Users" }
-    ]).toArray();
-
-    await db.collection('tweet').aggregate([
-      { $project: {
-          user_id: "$user.id",
-          text: 1,
-          created_at: 1,
-          retweet_count: 1,
-          favorite_count: 1,
-          entities: 1
+    const results = await db.collection('tweet').aggregate([
+      { $group: { 
+          _id: "$user.screen_name", 
+          tweetCount: { $sum: 1 }, 
+          avgRetweets: { $avg: "$retweet_count" } 
       } },
-      { $out: "Tweets_Only" }
+      { $match: { tweetCount: { $gt: 3 } } },
+      { $sort: { avgRetweets: -1 } },
+      { $limit: 10 }
     ]).toArray();
-
-    console.log("Success");
+    console.table(results);
   } finally {
     await client.close();
   }
