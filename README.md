@@ -18,30 +18,30 @@ Install the required MongoDB driver:
 
 Bash
 npm install
-##Execution
+## Execution
 Each task is implemented in an individual script. Run them using the following commands:
 
-#Query 1: node Query1.js
+# Query 1: node Query1.js
 
 Count of tweets that are not retweets or replies.
 
-#Query 2: node Query2.js
+# Query 2: node Query2.js
 
 Top 10 screen names by number of followers.
 
-#Query 3: node Query3.js
+# Query 3: node Query3.js
 
 The person who posted the most tweets.
 
-#Query 4: node Query4.js
+# Query 4: node Query4.js
 
 Top 10 people with the highest average retweets (minimum of 3 tweets).
 
-#Query 5: node Query5.js
+# Query 5: node Query5.js
 
 Separates user information into a Users collection and references them in a Tweets_Only collection.
 
-##Dependencies
+## Dependencies
 Node.js
 MongoDB
 mongodb (npm package)
