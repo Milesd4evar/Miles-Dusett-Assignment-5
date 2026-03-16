@@ -5,12 +5,11 @@ async function main() {
   try {
     await client.connect();
     const db = client.db('ieeevisTweets');
-    const results = await db.collection('tweet').aggregate([
-      { $group: { _id: "$user.screen_name", followers: { $max: "$user.followers_count" } } },
-      { $sort: { followers: -1 } },
-      { $limit: 10 }
-    ]).toArray();
-    console.table(results);
+    const count = await db.collection('tweet').countDocuments({
+      retweeted_status: { $exists: false },
+      in_reply_to_status_id: null
+    });
+    console.log(count);
   } finally {
     await client.close();
   }
